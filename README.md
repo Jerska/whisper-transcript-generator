@@ -28,10 +28,10 @@ Put this token in your `.env` for the `HUGGINGFACE_TOKEN` env var.
 ## Usage
 
 - First, put an audio file in `data/`.
-- Then call `transcript.py`, with the audio file name & speaker names:
+- Then call `transcript.py`, with the audio file name, language, and speaker names:
 
     ```bash
-    ./transcript.py test-jane-john.wav Jane John
+    ./transcript.py -i data/test-jane-john.wav -l fr -s Jane -s John
     ```
 
 ### Example output

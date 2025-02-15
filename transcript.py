@@ -9,28 +9,23 @@ from pyannote.audio.pipelines.utils.hook import ProgressHook
 from dotenv import load_dotenv
 import whisper
 import json
+import argparse
 
 load_dotenv()
 
 
-def usage():
-    usage_text = (
-        f"Usage: {sys.argv[0]} <input_file> <speaker1> <speaker2> ...\n\n"
-        "Transcribe a video file and diarize the speakers.\n"
-        "The output is a transcript with sections for each speaker.\n"
-        "Speakers should be given following the order of the first interaction.\n"
-        "Re-running the script with different speaker order will work instantly in case you make a mistake.\n\n"
-        "Example: transcript.py data/input.mp4 Alice Bob"
-    )
-    print(usage_text)
-
-    sys.exit(0)
-
-
 def parse_arguments():
-    if len(sys.argv) < 2 or "--help" in sys.argv:
-        usage()
-    return sys.argv[1], sys.argv[2:]
+    parser = argparse.ArgumentParser(
+        description="Transcribe a video file and diarize the speakers.",
+        usage=f"{sys.argv[0]} -i <input_file> -l <language> -s <speaker1> -s <speaker2> ...",
+    )
+    parser.add_argument("-i", "--input", required=True, help="Input video file")
+    parser.add_argument("-l", "--language", required=True, help="Language of the audio")
+    parser.add_argument(
+        "-s", "--speaker", action="append", required=True, help="Speakers in the audio."
+    )
+    args = parser.parse_args()
+    return args.input, args.language, args.speaker
 
 
 def find_best_speaker(diarization, start_time, end_time):
@@ -48,7 +43,7 @@ def find_best_speaker(diarization, start_time, end_time):
     return best_speaker
 
 
-input_file, speakers = parse_arguments()
+input_file, language, speakers = parse_arguments()
 input_file_base, input_file_ext = os.path.splitext(os.path.basename(input_file))
 source_file = f"data/{input_file_base}{input_file_ext}"
 wav_file = f"data/{input_file_base}.wav"
@@ -56,7 +51,7 @@ diarization_file = f"data/{input_file_base}_diarization.json"
 transcription_file = f"data/{input_file_base}_transcription.json"
 final_transcript_file = f"data/{input_file_base}_transcript.txt"
 
-print(f"Transcribing {source_file} with speakers:")
+print(f"Transcribing {source_file} in language '{language}' with speakers:")
 for speaker in speakers:
     print(f"- {speaker}")
 print(f"Intermediate output files:")
@@ -91,7 +86,7 @@ if not os.path.exists(diarization_file):
 if not os.path.exists(transcription_file):
     transcription_model = whisper.load_model("large")
     transcription = transcription_model.transcribe(
-        wav_file, language="fr", verbose=False
+        wav_file, language=language, verbose=False
     )
     with open(transcription_file, "w", encoding="utf-8") as text_file:
         json.dump(transcription["segments"], text_file, ensure_ascii=False, indent=4)
