@@ -33,3 +33,19 @@ Put this token in your `.env` for the `HUGGINGFACE_TOKEN` env var.
     ```bash
     ./transcript.py test-jane-john.wav Jane John
     ```
+
+### Example output
+
+```txt
+Jane
+ Hey John.
+ How are you doing?
+
+John
+ Hey Jane, I'm doing really good, thanks!
+ What's great with this transcript tool
+ is that even if I pause in my sentence
+ the whole sentence ends up properly grouped!
+
+...
+```
