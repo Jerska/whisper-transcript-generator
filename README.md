@@ -49,3 +49,25 @@ John
 
 ...
 ```
+
+## Options
+
+- `-i`, `--input`: Input video file (required)
+- `-l`, `--language`: Language of the audio (required)
+- `-s`, `--speaker`: Speakers in the audio (required, can be used multiple times)
+  If the order is wrong, re-running the command with a new order will re-generate the transcript with the order changed without requiring to re-run any model.
+
+## Additional Information
+
+- The script will generate intermediate files for diarization and transcription in the `data/` directory.
+- The final transcript will be saved in the `data/` directory with the suffix `_transcript.txt`.
+
+## Troubleshooting
+
+- Ensure that you have the necessary dependencies installed by running `pip install -r requirements.txt`.
+- If you encounter issues with `ffmpeg`, make sure it is installed and accessible from your system's PATH.
+- Verify that your HuggingFace Access Token is correctly set in the `.env` file.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
