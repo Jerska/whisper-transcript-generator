@@ -8,8 +8,8 @@ This is for example useful to generate a transcript from a Zoom recording, impro
 
 ## Requirements
 
-- [`ffmpeg`](https://ffmpeg.org/download.html) for audio conversion to `.wav`
 - Dependent packages: `pip install -r requirements.txt`
+- (Optional) [`ffmpeg`](https://ffmpeg.org/download.html) if your audio files aren't `.wav`.
 
 ## Pre-requisites
 
@@ -27,9 +27,9 @@ Put this token in your `.env` for the `HUGGINGFACE_TOKEN` env var.
 
 ## Usage
 
-- First, put an `.m4a` or `.wav` audio file in `data/`, e.g. `test-jane-john`.
+- First, put an audio file in `data/`.
 - Then call `transcript.py`, with the audio file name & speaker names:
 
     ```bash
-    python3 transcript.py test-jane-john Jane John
+    ./transcript.py test-jane-john.wav Jane John
     ```
