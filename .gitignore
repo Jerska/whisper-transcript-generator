@@ -1,0 +1,8 @@
+# dotenv
+.env
+
+# Editors
+/.vscode
+
+# data files
+/data
